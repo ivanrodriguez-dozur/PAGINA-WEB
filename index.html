@@ -3,148 +3,140 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tienda Deportiva Dozurtv</title>
+  <title>Pantalla de Bienvenida • Dozurtv</title>
   <style>
     :root {
-      --primary: #B6FF00;   /* verde neón */
-      --secondary: #000;    /* negro */
-      --text-light: #ffffff;
+      --primary: #B6FF00; /* Verde neón */
+      --secondary: #000;  /* Negro */
+      --text-light: #fff; /* Blanco */
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {margin:0;padding:0;box-sizing:border-box;}
     body {
       font-family: Arial, sans-serif;
       background-color: var(--secondary);
       color: var(--text-light);
       height: 100vh;
       overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
     }
-
-    /* ----- PANTALLA DE BIENVENIDA ----- */
-    .overlay {
-      position: fixed; inset: 0; display: flex; flex-direction: column;
-      justify-content: center; align-items: center;
-      background-color: var(--secondary);
-      z-index: 1000; transition: opacity 0.5s ease;
+    .logo {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: var(--primary);
+      margin-bottom: 1rem;
     }
-    .overlay.hidden { opacity: 0; pointer-events: none; }
-
-    .overlay .logo { font-size: 2.5rem; font-weight: bold; color: var(--primary); margin-bottom: 1rem; }
-    .overlay .welcome-text { font-size: 1.5rem; text-align: center; margin-bottom: 2rem; max-width: 90%; }
-
-    /* Contenedor del deslizador */
+    .welcome-text {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      max-width: 80%;
+    }
     .slider-container {
-      width: 70%; max-width: 500px; height: 56px;
+      width: 80%;
+      max-width: 400px;
+      height: 56px;
       background-color: rgba(255,255,255,0.1);
-      border-radius: 28px; position: relative;
-      display: flex; align-items: center; justify-content: center;
-      user-select: none;
+      border-radius: 28px;
+      position: relative;
+      overflow: hidden;
     }
-    /* Barra de progreso */
     .slider-progress {
-      position: absolute; top: 0; left: 0; height: 100%; width: 0;
-      background-color: rgba(182,255,0,0.3);
-      border-radius: 28px; pointer-events: none;
+      position: absolute;
+      top: 0; left: 0;
+      height: 100%;
+      width: 0;
+      background-color: rgba(182, 255, 0, 0.3);
+      border-radius: 28px;
+      pointer-events: none;
       transition: width 0.05s linear;
     }
     .slider-label {
-      position: absolute; left: 50%; top: 50%;
+      position: absolute;
+      left: 50%; top: 50%;
       transform: translate(-50%, -50%);
-      color: var(--text-light); font-size: 1rem; pointer-events: none;
+      color: var(--text-light);
+      font-size: 1rem;
+      pointer-events: none;
     }
     .slider-knob {
-      position: absolute; left: 4px; top: 4px; width: 48px; height: 48px;
-      background-color: var(--primary); color: var(--secondary);
-      border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      font-weight: bold; cursor: pointer; transition: transform 0.2s ease;
-      touch-action: none; /* mejora arrastre en móvil */
+      position: absolute;
+      left: 4px; top: 4px;
+      width: 48px; height: 48px;
+      background-color: var(--primary);
+      color: var(--secondary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s ease;
     }
-    .slider-knob:hover { transform: scale(1.1); }
+    .slider-knob:hover {transform: scale(1.1);}
   </style>
 </head>
 <body>
-  <!-- Pantalla de bienvenida con deslizador -->
-  <div class="overlay" id="overlay">
-    <div class="logo">Dozurtv</div>
-    <div class="welcome-text">Encuentra tu estilo soñado y comienza a comprar aquí</div>
-    <div class="slider-container" id="slider">
-      <div class="slider-progress" id="sliderProgress"></div>
-      <span class="slider-label">Swipe to start</span>
-      <div class="slider-knob" id="knob" aria-label="Desliza para empezar">⮞</div>
-    </div>
+  <div class="logo">Dozurtv</div>
+  <div class="welcome-text">Encuentra tu estilo soñado y comienza a comprar aquí</div>
+  <div class="slider-container" id="slider">
+    <div class="slider-progress" id="sliderProgress"></div>
+    <span class="slider-label">Swipe to start</span>
+    <div class="slider-knob" id="knob">⮞</div>
   </div>
 
   <script>
-    // Interacción del deslizador para ir a home.html
-    (() => {
-      const slider   = document.getElementById('slider');
-      const knob     = document.getElementById('knob');
-      const progress = document.getElementById('sliderProgress');
-      const overlay  = document.getElementById('overlay');
+    const slider = document.getElementById('slider');
+    const knob = document.getElementById('knob');
+    const progress = document.getElementById('sliderProgress');
+    let dragging = false, startX = 0, knobStart = 0;
 
-      let dragging = false;
-      let startX = 0;
-      let knobStart = 0;
+    function getMaxLeft() {
+      const rect = slider.getBoundingClientRect();
+      return rect.width - knob.offsetWidth - 4;
+    }
 
-      function getMaxLeft() {
-        const rect = slider.getBoundingClientRect();
-        return rect.width - knob.offsetWidth - 4; // 4px padding
+    function onPointerDown(e) {
+      dragging = true;
+      startX = e.touches ? e.touches[0].clientX : e.clientX;
+      knobStart = parseFloat(getComputedStyle(knob).left);
+      if (navigator.vibrate) navigator.vibrate(30);
+    }
+    function onPointerMove(e) {
+      if (!dragging) return;
+      const currentX = e.touches ? e.touches[0].clientX : e.clientX;
+      let offset = knobStart + (currentX - startX);
+      const maxLeft = getMaxLeft();
+      if (offset < 4) offset = 4;
+      if (offset > maxLeft) offset = maxLeft;
+      knob.style.left = offset + 'px';
+      const fillWidth = offset + knob.offsetWidth;
+      progress.style.width = Math.min(fillWidth, slider.clientWidth) + 'px';
+      if (navigator.vibrate) navigator.vibrate(5);
+    }
+    function onPointerUp() {
+      if (!dragging) return;
+      dragging = false;
+      const maxLeft = getMaxLeft();
+      const currentLeft = parseFloat(getComputedStyle(knob).left);
+      if (navigator.vibrate) navigator.vibrate(15);
+      if (currentLeft >= maxLeft - 5) {
+        // ✅ Aquí redirige a la home page
+        window.location.href = "./home.html"; 
+      } else {
+        knob.style.left = '4px';
+        progress.style.width = '0';
       }
+    }
 
-      function goToHome() {
-        // efecto de desvanecido y navegación
-        overlay.classList.add('hidden');
-        setTimeout(() => {
-          window.location.assign('./home.html'); // ✅ ruta relativa
-        }, 300);
-      }
-
-      function onPointerDown(e) {
-        dragging = true;
-        startX = e.touches ? e.touches[0].clientX : e.clientX;
-        knobStart = parseFloat(getComputedStyle(knob).left);
-        if (typeof navigator.vibrate === 'function') navigator.vibrate(30);
-      }
-
-      function onPointerMove(e) {
-        if (!dragging) return;
-        const currentX = e.touches ? e.touches[0].clientX : e.clientX;
-        let offset = knobStart + (currentX - startX);
-        const maxLeft = getMaxLeft();
-        if (offset < 4) offset = 4;
-        if (offset > maxLeft) offset = maxLeft;
-        knob.style.left = offset + 'px';
-
-        // Actualiza barra de progreso
-        const fillWidth = offset + knob.offsetWidth;
-        progress.style.width = Math.min(fillWidth, slider.clientWidth) + 'px';
-
-        if (typeof navigator.vibrate === 'function') navigator.vibrate(10);
-      }
-
-      function onPointerUp() {
-        if (!dragging) return;
-        dragging = false;
-        const maxLeft = getMaxLeft();
-        const currentLeft = parseFloat(getComputedStyle(knob).left);
-        if (typeof navigator.vibrate === 'function') navigator.vibrate(20);
-
-        if (currentLeft >= maxLeft - 5) {
-          goToHome();               // ✅ ir a home.html
-        } else {
-          // Resetear
-          knob.style.left = '4px';
-          progress.style.width = '0';
-        }
-      }
-
-      // Ratón y táctil
-      knob.addEventListener('mousedown', onPointerDown);
-      knob.addEventListener('touchstart', onPointerDown, { passive: true });
-      document.addEventListener('mousemove', onPointerMove);
-      document.addEventListener('touchmove', onPointerMove, { passive: false });
-      document.addEventListener('mouseup', onPointerUp);
-      document.addEventListener('touchend', onPointerUp);
-    })();
+    knob.addEventListener('mousedown', onPointerDown);
+    knob.addEventListener('touchstart', onPointerDown, { passive: true });
+    document.addEventListener('mousemove', onPointerMove);
+    document.addEventListener('touchmove', onPointerMove, { passive: false });
+    document.addEventListener('mouseup', onPointerUp);
+    document.addEventListener('touchend', onPointerUp);
   </script>
 </body>
 </html>

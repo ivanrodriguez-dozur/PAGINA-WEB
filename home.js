@@ -1,33 +1,97 @@
+/* ================================
+   home.js - Funcionalidades de la página principal
+   Incluye:
+   1. Contador regresivo en el banner
+   2. Filtro de categorías (chips)
+   3. Toggle de favoritos en productos
+==================================*/
 
-// home.js
-const deadline = new Date(Date.now() + 10*24*60*60*1000);
-const pad = n=>String(n).padStart(2,'0');
-function updateCountdown(){
-  const now=new Date(); let diff=Math.max(0, deadline-now);
-  const d=Math.floor(diff/86400000); diff-=d*86400000;
-  const h=Math.floor(diff/3600000); diff-=h*3600000;
-  const m=Math.floor(diff/60000); diff-=m*60000;
-  const s=Math.floor(diff/1000);
-  const text=(d>0?`${d}d `:'')+`${pad(h)}:${pad(m)}:${pad(s)}`;
-  const el=document.querySelector('[data-countdown]'); if(el) el.textContent=text;
+/* ====== 1. CONTADOR REGRESIVO DEL BANNER ====== */
+// 📌 CAMBIAR: fecha objetivo para las promociones
+const countdownElement = document.querySelector("[data-countdown]");
+const targetDate = new Date();
+targetDate.setDate(targetDate.getDate() + 10); // +10 días desde hoy
+
+function updateCountdown() {
+  const now = new Date();
+  const diff = targetDate - now;
+
+  if (diff <= 0) {
+    countdownElement.textContent = "00:00:00";
+    return;
+  }
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
+  const seconds = Math.floor((diff / 1000) % 60);
+
+  // 📌 Mostramos días solo si hay más de 0
+  if (days > 0) {
+    countdownElement.textContent =
+      `${days}d ${hours.toString().padStart(2, "0")}:` +
+      `${minutes.toString().padStart(2, "0")}:` +
+      `${seconds.toString().padStart(2, "0")}`;
+  } else {
+    countdownElement.textContent =
+      `${hours.toString().padStart(2, "0")}:` +
+      `${minutes.toString().padStart(2, "0")}:` +
+      `${seconds.toString().padStart(2, "0")}`;
+  }
 }
-setInterval(updateCountdown,1000); updateCountdown();
 
-document.addEventListener('click',e=>{
-  const fav=e.target.closest('.fav-btn');
-  if(fav){ fav.classList.toggle('is-fav'); fav.setAttribute('aria-pressed', fav.classList.contains('is-fav')?'true':'false'); }
-  const dock=e.target.closest('.dock-btn');
-  if(dock){ document.querySelectorAll('.dock-btn').forEach(b=>b.classList.remove('active')); dock.classList.add('active'); }
-});
-// chips
-const chips=document.querySelectorAll('.chip');
-chips.forEach(ch=>ch.addEventListener('click',()=>{
-  chips.forEach(c=>c.classList.remove('active')); ch.classList.add('active');
-  const cat=ch.dataset.filter;
-  document.querySelectorAll('[data-card]').forEach(card=>{
-    card.style.display = (cat==='all' || card.dataset.card===cat)?'':'none';
+// Inicia el contador
+if (countdownElement) {
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+}
+
+/* ====== 2. FILTRO DE CATEGORÍAS ====== */
+const chips = document.querySelectorAll(".chip");
+const cards = document.querySelectorAll(".card");
+
+chips.forEach((chip) => {
+  chip.addEventListener("click", () => {
+    // Quitar estado activo de todos los chips
+    chips.forEach((c) => {
+      c.classList.remove("active");
+      c.setAttribute("aria-pressed", "false");
+    });
+
+    // Activar el chip actual
+    chip.classList.add("active");
+    chip.setAttribute("aria-pressed", "true");
+
+    const filter = chip.dataset.filter;
+
+    // Filtrar productos
+    cards.forEach((card) => {
+      if (filter === "all" || card.dataset.card === filter) {
+        card.style.display = "block";
+      } else {
+        card.style.display = "none";
+      }
+    });
   });
-}));
-// parallax
-const px=document.querySelector('.has-parallax');
-if(px){ window.addEventListener('scroll',()=>{ px.style.transform=`translateY(${window.scrollY*0.05}px)`; }, {passive:true}); }
+});
+
+/* ====== 3. TOGGLE DE FAVORITOS ====== */
+const favButtons = document.querySelectorAll(".fav-btn");
+
+favButtons.forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    e.preventDefault(); // Evita que el click siga el enlace
+
+    const isPressed = btn.getAttribute("aria-pressed") === "true";
+    btn.setAttribute("aria-pressed", !isPressed);
+
+    // 📌 Cambiar el color o estilo según estado
+    if (!isPressed) {
+      btn.style.backgroundColor = "var(--primary)";
+      btn.style.color = "var(--secondary)";
+    } else {
+      btn.style.backgroundColor = "var(--light)";
+      btn.style.color = "var(--secondary)";
+    }
+  });
+});

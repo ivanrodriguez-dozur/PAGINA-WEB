@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Home • Sport Shop</title>
+
+  <!-- Fuente -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="./styles.css"/>
+  <meta name="color-scheme" content="light"/>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="container header-inner" role="banner">
+      <div class="header-left">
+        <div class="avatar" aria-hidden="true">J</div>
+        <div>
+          <span class="welcome">Welcome Back</span>
+          <strong class="username">Jobby</strong>
+        </div>
+      </div>
+
+      <!-- BOTONES DE BUSCAR Y NOTIFICACIONES -->
+      <div class="header-actions" role="navigation" aria-label="top actions">
+        <!-- Botón Buscar -->
+        <button class="icon-btn" aria-label="Search" onclick="location.href='./search.html'">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="11" cy="11" r="7"/>
+            <path d="M21 21l-3.6-3.6"/>
+          </svg>
+        </button>
+
+        <!-- Botón Notificaciones -->
+        <button class="icon-btn" aria-label="Notifications" onclick="location.href='./notifications.html'">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M18 16v-5a6 6 0 10-12 0v5l-2 2h16l-2-2Z"/>
+            <path d="M9 20a3 3 0 006 0"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- CUERPO PRINCIPAL -->
+  <main class="container" id="main">
+    <!-- BANNER DE PROMOCIÓN -->
+    <section class="banner" aria-label="Promotions">
+      <article class="banner-card">
+        <div class="banner-body">
+          <div class="banner-copy">
+            <h2>Consigue Los Mejores Descuentos</h2>
+            <p>Productos exclusivos a los mejores precios.</p>
+            <span class="badge-timer">
+              <span class="badge-dot" aria-hidden="true"></span>
+              <span data-countdown>--:--:--</span>
+            </span>
+          </div>
+
+          <!-- IMAGEN DEL BANNER (puedes cambiarla desde aquí) -->
+          <div class="banner-media has-parallax">
+            <img src="./model.svg" alt="Model wearing sport outfit placeholder">
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- BOTONES DE CATEGORÍAS -->
+    <nav class="chips" aria-label="Categories">
+      <button class="chip active" data-filter="all" aria-pressed="true">Popular</button>
+      <button class="chip" data-filter="jacket" aria-pressed="false">Camisas</button>
+      <button class="chip" data-filter="shoes" aria-pressed="false">Zapatillas</button>
+      <button class="chip" data-filter="pants" aria-pressed="false">Medias</button>
+    </nav>
+
+    <!-- SECCIÓN DE PRODUCTOS -->
+    <div class="section-head">
+      <h3>Ofertas para ti</h3>
+      <a href="#" aria-label="See all popular products">ver más</a>
+    </div>
+
+    <section class="grid">
+      <!-- PRODUCTO 1 -->
+      <article class="card" data-card="zapatillas">
+        <a href="./producto1.html">
+          <div class="card-media">
+            <img src="./assets/product-1.svg" alt="Nike Futsal Street Gato">
+            <span class="price-badge">$129</span>
+
+            <!-- Botón de favorito -->
+            <button class="fav-btn" aria-label="Add to favorites" onclick="location.href='./favorites.html'">
+              <svg viewBox="0 0 24 24"><path d="M12 21s-8-4.5-8-10a5 5 0 019-3 5 5 0 019 3c0 5.5-8 10-8 10z"/></svg>
+            </button>
+          </div>
+          <div class="card-body">
+            <h4 class="title">Nike - Futsal</h4>
+            <p class="subtitle">Street Gato</p>
+          </div>
+        </a>
+      </article>
+
+      <!-- PRODUCTO 2 -->
+      <article class="card" data-card="jacket">
+        <a href="./producto2.html">
+          <div class="card-media">
+            <img src="./assets/product-2.svg" alt="Wake Hoodie">
+            <span class="price-badge">$129</span>
+            <button class="fav-btn" aria-label="Add to favorites" onclick="location.href='./favorites.html'">
+              <svg viewBox="0 0 24 24"><path d="M12 21s-8-4.5-8-10a5 5 0 019-3 5 5 0 019 3c0 5.5-8 10-8 10z"/></svg>
+            </button>
+          </div>
+          <div class="card-body">
+            <h4 class="title">Wake – Hoodie</h4>
+            <p class="subtitle">Wake Officials</p>
+          </div>
+        </a>
+      </article>
+
+      <!-- PRODUCTO 3 -->
+      <article class="card" data-card="pants">
+        <a href="./producto3.html">
+          <div class="card-media">
+            <img src="./assets/product-3.svg" alt="Wake Hoodie">
+            <span class="price-badge">$99</span>
+            <button class="fav-btn" aria-label="Add to favorites" onclick="location.href='./favorites.html'">
+              <svg viewBox="0 0 24 24"><path d="M12 21s-8-4.5-8-10a5 5 0 019-3 5 5 0 019 3c0 5.5-8 10-8 10z"/></svg>
+            </button>
+          </div>
+          <div class="card-body">
+            <h4 class="title">Wake – Hoodie</h4>
+            <p class="subtitle">Wake Officials</p>
+          </div>
+        </a>
+      </article>
+
+      <!-- PRODUCTO 4 -->
+      <article class="card" data-card="shoes">
+        <a href="./producto4.html">
+          <div class="card-media">
+            <img src="./assets/product-4.svg" alt="Wake Hoodie">
+            <span class="price-badge">$149</span>
+            <button class="fav-btn" aria-label="Add to favorites" onclick="location.href='./favorites.html'">
+              <svg viewBox="0 0 24 24"><path d="M12 21s-8-4.5-8-10a5 5 0 019-3 5 5 0 019 3c0 5.5-8 10-8 10z"/></svg>
+            </button>
+          </div>
+          <div class="card-body">
+            <h4 class="title">Wake – Hoodie</h4>
+            <p class="subtitle">Wake Officials</p>
+          </div>
+        </a>
+      </article>
+    </section>
+  </main>
+
+  <!-- MENÚ INFERIOR -->
+  <nav class="dock" aria-label="Bottom Navigation">
+    <div class="dock-inner">
+      <button class="dock-btn active" aria-label="Home (current)" onclick="location.href='./home.html'">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1v-10.5Z"/>
+        </svg>
+      </button>
+
+      <button class="dock-btn" aria-label="Favorites" onclick="location.href='./favorites.html'">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 21s-8-4.5-8-10a5 5 0 019-3 5 5 0 019 3c0 5.5-8 10-8 10z"/>
+        </svg>
+      </button>
+
+      <button class="dock-btn" aria-label="Cart" onclick="location.href='./cart.html'">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M6 6h14l-1.5 9H8L6 6Z"/>
+          <circle cx="9" cy="20" r="1.5"/>
+          <circle cx="18" cy="20" r="1.5"/>
+        </svg>
+      </button>
+
+      <button class="dock-btn" aria-label="Profile" onclick="location.href='./profile.html'">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 21a8 8 0 0116 0"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- SCRIPT PRINCIPAL -->
+  <script src="./home.js"></script>
+</body>
+</html>
+      <article class="banner-card">
+        <div class="banner-body">
+          <div class="banner-copy">
+            <h2>Consigue Los Mejores Descuentos</h2>
+            <p>Productos exclusivos a los mejores precios.</p>
+            <span class="badge-timer"><span class="badge-dot" aria-hidden="true"></span><span data-countdown>--:--:--</span></span>
+          </div>
+          <div class="banner-media has-parallax">
+            <!-- ✅ ruta relativa -->
+            <img src="./model.svg" alt="Model wearing sport outfit placeholder">
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <nav class="chips" aria-label="Categories">
+      <button class="chip active" data-filter="all" aria-pressed="true">Popular</button>
+      <button class="chip" data-filter="jacket" aria-pressed="false">Camisas</button>
+      <button class="chip" data-filter="shoes" aria-pressed="false">Zapatillas</button>
+      <button class="chip" data-filter="pants" aria-pressed="false">Medias</button>
+    </nav>
+
+    <div class="section-head">
+      <h3>Ofertas para ti</h3>
+      <a href="#" aria-label="See all popular products">ver mas</a>
+    </div>
+
+    <section class="grid">
+      <article class="card" data-card="zapatillas">
+        <a href="#" aria-label="Open Wake – Hoodie product">
+          <div class="card-media">
+            <!-- ✅ ruta relativa -->
+            <img src="./assets/product-1.svg" alt="Product placeholder">
+            <span class="price-badge">$129</span>
+            <button class="fav-btn" aria-label="Add to favorites" aria-pressed="false">
+              <svg viewBox="0 0 24 24"><path d="M12 21s-8-4.5-8-10a5 5 0 019-3 5 5 0 019 3c0 5.5-8 10-8 10z"/></svg>
+            </button>
+          </div>
+          <div class="card-body">
+            <h4 class="title">Nike - Futsal</h4>
+            <p class="subtitle">Street Gato</p>
+          </div>
+        </a>
+      </article>
+
+      <article class="card" data-card="jacket">
+        <a href="#">
+          <div class="card-media">
+            <img src="./assets/product-2.svg" alt="Product placeholder">
+            <span class="price-badge">$129</span>
+            <button class="fav-btn" aria-label="Add to favorites" aria-pressed="false">
+              <svg viewBox="0 0 24 24"><path d="M12 21s-8-4.5-8-10a5 5 0 019-3 5 5 0 019 3c0 5.5-8 10-8 10z"/></svg>
+            </button>
+          </div>
+          <div class="card-body">
+            <h4 class="title">Wake – Hoodie</h4>
+            <p class="subtitle">Wake Officials</p>
+          </div>
+        </a>
+      </article>
+
+      <article class="card" data-card="pants">
+        <a href="#">
+          <div class="card-media">
+            <img src="./assets/product-3.svg" alt="Product placeholder">
+            <span class="price-badge">$99</span>
+            <button class="fav-btn" aria-label="Add to favorites" aria-pressed="false">
+              <svg viewBox="0 0 24 24"><path d="M12 21s-8-4.5-8-10a5 5 0 019-3 5 5 0 019 3c0 5.5-8 10-8 10z"/></svg>
+            </button>
+          </div>
+          <div class="card-body">
+            <h4 class="title">Wake – Hoodie</h4>
+            <p class="subtitle">Wake Officials</p>
+          </div>
+        </a>
+      </article>
+
+      <article class="card" data-card="shoes">
+        <a href="#">
+          <div class="card-media">
+            <img src="./assets/product-4.svg" alt="Product placeholder">
+            <span class="price-badge">$149</span>
+            <button class="fav-btn" aria-label="Add to favorites" aria-pressed="false">
+              <svg viewBox="0 0 24 24"><path d="M12 21s-8-4.5-8-10a5 5 0 019-3 5 5 0 019 3c0 5.5-8 10-8 10z"/></svg>
+            </button>
+          </div>
+          <div class="card-body">
+            <h4 class="title">Wake – Hoodie</h4>
+            <p class="subtitle">Wake Officials</p>
+          </div>
+        </a>
+      </article>
+    </section>
+  </main>
+
+  <nav class="dock" aria-label="Bottom Navigation">
+    <div class="dock-inner">
+      <button class="dock-btn active" aria-label="Home (current)">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1v-10.5Z"/></svg>
+      </button>
+      <button class="dock-btn" aria-label="Favorites">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-8-4.5-8-10a5 5 0 019-3 5 5 0 019 3c0 5.5-8 10-8 10z"/></svg>
+      </button>
+      <button class="dock-btn" aria-label="Cart">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h14l-1.5 9H8L6 6Z"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg>
+      </button>
+      <button class="dock-btn" aria-label="Profile">
+        <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ✅ ruta relativa -->
+  <script src="./home.js"></script>
+</body>
+</html>

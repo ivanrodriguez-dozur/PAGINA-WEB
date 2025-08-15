@@ -1,1 +1,11 @@
-
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0" stop-color="#C8FF61"/><stop offset="1" stop-color="#A1E93F"/>
+  </linearGradient></defs>
+  <rect width="1200" height="700" fill="#eaeef4"/>
+  <g opacity="0.9"><circle cx="300" cy="200" r="120" fill="url(#g)"/>
+  <rect x="800" y="120" width="250" height="250" rx="32" fill="url(#g)" transform="rotate(20 925 245)"/>
+  <polygon points="650,500 820,620 500,650" fill="url(#g)"/></g>
+  <g stroke="#222" stroke-width="8" fill="#fff"><circle cx="600" cy="230" r="90"/>
+  <rect x="500" y="320" width="200" height="250" rx="40"/></g>
+</svg>

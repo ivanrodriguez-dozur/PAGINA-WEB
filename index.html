@@ -176,95 +176,29 @@
     </div>
   </div>
   <!-- Contenido principal que se revela tras deslizar -->
-  <main class="main-content" id="mainContent">
-    <h1>Bienvenido a nuestra tienda deportiva</h1>
-    <p>Explora nuestro catálogo de productos y descubre tus próximos favoritos.</p>
-    <div class="categories">
-      <div class="category">Zapatillas</div>
-      <div class="category">Uniformes</div>
-      <div class="category">Accesorios</div>
-      <div class="category">Balones</div>
-      <div class="category">Ofertas</div>
-      <div class="category">Personalización</div>
-    </div>
-    <a href="#" class="btn">Ver productos</a>
-  </main>
-  <script>
-    // Interacción del deslizador para revelar el contenido principal
-    (() => {
-      const slider = document.getElementById('slider');
-      const knob = document.getElementById('knob');
-      const progress = document.getElementById('sliderProgress');
-      const overlay = document.getElementById('overlay');
-      const mainContent = document.getElementById('mainContent');
-      let dragging = false;
-      let startX = 0;
-      let knobStart = 0;
+ <script>
+  // ... tu lógica de drag existente ...
+  function goToHome() {
+    // pequeño delay para ver la animación de “completado”
+    setTimeout(() => {
+      // ✅ usa ruta relativa
+      window.location.assign('./home.html');
+      // (si tu index.html está en una subcarpeta, usa '../home.html')
+    }, 220);
+  }
 
-      function getMaxLeft() {
-        // distancia máxima que puede recorrer el knob dentro del slider
-        const rect = slider.getBoundingClientRect();
-        return rect.width - knob.offsetWidth - 4; // 4px de padding
-      }
+  // Llama a goToHome() cuando el progreso >= 100%
+  // Ejemplo:
+  const slider = document.querySelector('.slider-handle');
+  const track  = document.querySelector('.slider-track');
+  const progressBar = document.querySelector('.slider-progress');
 
-      function onPointerDown(e) {
-        dragging = true;
-        startX = e.touches ? e.touches[0].clientX : e.clientX;
-        knobStart = parseFloat(getComputedStyle(knob).left);
-
-        // Feedback de vibración al iniciar el arrastre (solo móviles compatibles)
-        if (typeof navigator.vibrate === 'function') {
-          navigator.vibrate(30);
-        }
-      }
-      function onPointerMove(e) {
-        if (!dragging) return;
-        const currentX = e.touches ? e.touches[0].clientX : e.clientX;
-        let offset = knobStart + (currentX - startX);
-        const maxLeft = getMaxLeft();
-        if (offset < 4) offset = 4;
-        if (offset > maxLeft) offset = maxLeft;
-        knob.style.left = offset + 'px';
-
-        // Actualizar la barra de progreso en función de la posición del knob
-        const fillWidth = offset + knob.offsetWidth;
-        progress.style.width = Math.min(fillWidth, slider.clientWidth) + 'px';
-
-        // Vibra ligeramente en cada movimiento (sólo si se soporta)
-        if (typeof navigator.vibrate === 'function') {
-          navigator.vibrate(10);
-        }
-      }
-      function onPointerUp() {
-        if (!dragging) return;
-        dragging = false;
-        const maxLeft = getMaxLeft();
-        const currentLeft = parseFloat(getComputedStyle(knob).left);
-        // Vibración al soltar
-        if (typeof navigator.vibrate === 'function') {
-          navigator.vibrate(20);
-        }
-        if (currentLeft >= maxLeft - 5) {
-          // Acción completada: ocultar overlay y mostrar contenido
-          overlay.classList.add('hidden');
-          setTimeout(() => {
-            overlay.style.display = 'none';
-            mainContent.style.display = 'block';
-          }, 500);
-        } else {
-          // Reset
-          knob.style.left = '4px';
-          progress.style.width = '0';
-        }
-      }
-      // Listeners para ratón y tacto
-      knob.addEventListener('mousedown', onPointerDown);
-      knob.addEventListener('touchstart', onPointerDown, { passive: true });
-      document.addEventListener('mousemove', onPointerMove);
-      document.addEventListener('touchmove', onPointerMove, { passive: false });
-      document.addEventListener('mouseup', onPointerUp);
-      document.addEventListener('touchend', onPointerUp);
-    })();
-  </script>
-</body>
-</html>
+  function onMove(clientX) {
+    const rect = track.getBoundingClientRect();
+    const x = Math.max(rect.left, Math.min(clientX, rect.right));
+    const pct = (x - rect.left) / rect.width; // 0..1
+    slider.style.left = `${pct * 100}%`;
+    if (progressBar) progressBar.style.width = `${pct * 100}%`;
+    if (pct >= 0.98) goToHome();
+  }
+</script>

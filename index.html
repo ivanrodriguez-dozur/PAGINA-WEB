@@ -72,6 +72,19 @@
       user-select: none;
     }
 
+    /* Barra de progreso que se va llenando mientras se desliza */
+    .slider-progress {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0;
+      background-color: rgba(182, 255, 0, 0.3); /* tono verde translúcido */
+      border-radius: 28px;
+      pointer-events: none;
+      transition: width 0.05s linear;
+    }
+
     .slider-label {
       position: absolute;
       left: 50%;
@@ -156,6 +169,8 @@
     <div class="logo">Dozurtv</div>
     <div class="welcome-text">Encuentra tu estilo soñado y comienza a comprar aquí</div>
     <div class="slider-container" id="slider">
+      <!-- Barra de progreso -->
+      <div class="slider-progress" id="sliderProgress"></div>
       <span class="slider-label">Swipe to start</span>
       <div class="slider-knob" id="knob">⮞</div>
     </div>
@@ -179,6 +194,7 @@
     (() => {
       const slider = document.getElementById('slider');
       const knob = document.getElementById('knob');
+      const progress = document.getElementById('sliderProgress');
       const overlay = document.getElementById('overlay');
       const mainContent = document.getElementById('mainContent');
       let dragging = false;
@@ -195,6 +211,11 @@
         dragging = true;
         startX = e.touches ? e.touches[0].clientX : e.clientX;
         knobStart = parseFloat(getComputedStyle(knob).left);
+
+        // Feedback de vibración al iniciar el arrastre (solo móviles compatibles)
+        if (typeof navigator.vibrate === 'function') {
+          navigator.vibrate(30);
+        }
       }
       function onPointerMove(e) {
         if (!dragging) return;
@@ -204,12 +225,25 @@
         if (offset < 4) offset = 4;
         if (offset > maxLeft) offset = maxLeft;
         knob.style.left = offset + 'px';
+
+        // Actualizar la barra de progreso en función de la posición del knob
+        const fillWidth = offset + knob.offsetWidth;
+        progress.style.width = Math.min(fillWidth, slider.clientWidth) + 'px';
+
+        // Vibra ligeramente en cada movimiento (sólo si se soporta)
+        if (typeof navigator.vibrate === 'function') {
+          navigator.vibrate(10);
+        }
       }
       function onPointerUp() {
         if (!dragging) return;
         dragging = false;
         const maxLeft = getMaxLeft();
         const currentLeft = parseFloat(getComputedStyle(knob).left);
+        // Vibración al soltar
+        if (typeof navigator.vibrate === 'function') {
+          navigator.vibrate(20);
+        }
         if (currentLeft >= maxLeft - 5) {
           // Acción completada: ocultar overlay y mostrar contenido
           overlay.classList.add('hidden');
@@ -220,6 +254,7 @@
         } else {
           // Reset
           knob.style.left = '4px';
+          progress.style.width = '0';
         }
       }
       // Listeners para ratón y tacto
